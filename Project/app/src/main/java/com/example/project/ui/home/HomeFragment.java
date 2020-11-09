@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -42,24 +43,37 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         postBtn = (Button) root.findViewById(R.id.button2);
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save_Fetch_Update_Info(v);
+                save_Fetch_Update_Review(v);
             }
         });
+
+        Button deleteBtn = (Button) root.findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteReview(v);
+            }
+        });
+
         return root;
     }
         Map<String, Object> review = new HashMap<>();
         private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/user");
-        public void save_Fetch_Update_Info(View view){
+
+        public void save_Fetch_Update_Review(View view) {
             EditText reviewView = root.findViewById(R.id.textReview);
             final String reviewText = reviewView.getText().toString();
             //TextView userView = root.findViewById(R.id.emailText);
             //String userEmail = userView.getText().toString();
 
-            if (reviewText.isEmpty()) {return;}
+            if (reviewText.isEmpty()) {
+                return;
+            }
 
             review.put("user", reviewText);
 
@@ -79,14 +93,28 @@ public class HomeFragment extends Fragment {
             mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()){
+                    if (documentSnapshot.exists()) {
                         String reviewGetText = documentSnapshot.getString(reviewText);
-                        reviewsText.setText(reviewText+"\n");
+                        reviewsText.setText(reviewText + "\n");
                     }
                 }
             });
+        }
 
-
+        public void deleteReview(View view){
+            mDocRef.delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("userReview", "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("userReview", "Error deleting document", e);
+                        }
+                    });
         }
 
 }

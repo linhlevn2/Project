@@ -15,6 +15,7 @@
     <string name="title1">Budget Hotels (less than $70 per night)</string>
     <string name="title2">Deluxe Hotels</string>
     <string name="postButton">Post</string>
+    <string name="deleteButton">Delete</string>
     <string name="review">Give us your feedback!</string>
     <string name="hotel1">Yellow Duck</string>
     <string name="desc1">Price: $40/night.\nLocation: Queen and Spadina.\nAmenities: Gym: Yes, Pool: No, Spa: Yes.\nAverage rating: 4.3.</string>
