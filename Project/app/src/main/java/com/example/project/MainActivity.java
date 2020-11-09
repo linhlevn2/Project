@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -13,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,26 +31,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private AppBarConfiguration mAppBarConfiguration;
 
-    private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/user");
 
-    public void saveInfo(View view){
-        EditText reviewView = findViewById(R.id.textReview);
-        String reviewText = reviewView.getText().toString();
-
-        if (reviewText.isEmpty()) {return;}
-        Map<String, Object> review = new HashMap<>();
-        review.put("user1", "Very nice!");
-        review.put("user2", "Lovely hotel!");
-        review.put("user3", "Poor place to stay :<");
-        review.put("user", reviewText);
-
-        mDocRef.set(review).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("", "Document has been saved!")
-            }
-        })
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
     }
 
     @Override
