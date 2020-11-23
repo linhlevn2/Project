@@ -70,8 +70,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
-        //String hotelsList = mDocRef1.getString("a");
+                //String hotelsList = mDocRef1.getString("a");
 
         //TextView hotels = root.findViewById(R.id.hotelTxt);
         //hotels.setText(hotelsList);

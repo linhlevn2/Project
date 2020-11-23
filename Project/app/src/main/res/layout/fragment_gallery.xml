@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_gallery"
@@ -30,54 +30,55 @@
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/spa"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                tools:text="@string/spa" />
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/spaTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:text="There is no hotel that has spa" />
+                android:text="There is no hotel that has spa or you did not set your preferrence for this category" />
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/pool"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:text="@string/pool" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/poolTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:text="There is no hotel that has pool" />
+                android:text="There is no hotel that has pool or you did not set your preferrence for this category" />
 
             <TextView
                 android:id="@+id/textView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/gym"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:text="@string/gym" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/gymTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:text="There is no hotel that has gym" />
+                android:text="There is no hotel that has gym or you did not set your preferrence for this category" />
 
             <TextView
                 android:id="@+id/textView17"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/priceTxt"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:text="@string/priceTxt" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/priceText"
@@ -90,15 +91,16 @@
                 android:id="@+id/textView18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/distanceTxt"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:text="@string/distanceTxt" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/distanceText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="There is no hotel that satisfy your preferrence or you did not set your preferrence for this category" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
