@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.project.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,24 +35,12 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private AppBarConfiguration mAppBarConfiguration;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ArrayList<CreateCard> cardItem = new ArrayList<>();
-        cardItem.add(new CreateCard(R.drawable.hotel3, "T1", "T2"));
-        cardItem.add(new CreateCard(R.drawable.hotel1, "T3", "T2"));
-        cardItem.add(new CreateCard(R.drawable.hotel2, "T4", "T2"));
-        mRecyclerView = findViewById(R.id.recyclerView2);
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter = new ExampleAdapter(cardItem);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override

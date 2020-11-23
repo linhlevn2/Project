@@ -14,8 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project.CreateCard;
+import com.example.project.ExampleAdapter;
+import com.example.project.MainActivity;
 import com.example.project.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +28,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +36,7 @@ public class HomeFragment extends Fragment {
     View root = null;
     private HomeViewModel homeViewModel;
     private Button postBtn;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -59,6 +65,32 @@ public class HomeFragment extends Fragment {
                 deleteReview(v);
             }
         });
+
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        ArrayList<CreateCard> cardItem = new ArrayList<>();
+        cardItem.add(new CreateCard(R.drawable.hotel3, "T1", "T2"));
+        cardItem.add(new CreateCard(R.drawable.hotel1, "T3", "T2"));
+        cardItem.add(new CreateCard(R.drawable.hotel2, "T4", "T2"));
+
+        RecyclerView mRecyclerView;
+        RecyclerView.Adapter mAdapter;
+        RecyclerView.LayoutManager mLayoutManager;
+
+        mRecyclerView = v.findViewById(R.id.recyclerView2);
+        mAdapter = new ExampleAdapter(cardItem);
+        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        /*mLayoutManager = new LinearLayoutManager(HomeFragment, LinearLayoutManager.HORIZONTAL, false);
+        mAdapter = new ExampleAdapter(cardItem);
+        mRecyclerView = findViewById(R.id.recyclerView2);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);*/
+
+
 
         return root;
     }

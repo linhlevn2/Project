@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -253,17 +254,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="500dp">
-
-            </HorizontalScrollView><![CDATA[
-
-            />
-
-        ]]>
         </LinearLayout>
     </ScrollView>
 
