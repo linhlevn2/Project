@@ -78,9 +78,10 @@ public class HomeFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager;
 
         mRecyclerView = v.findViewById(R.id.recyclerView2);
-        mAdapter = new ExampleAdapter(cardItem);
+        mAdapter = new ExampleAdapter(this.getContext(), cardItem);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
@@ -89,8 +90,6 @@ public class HomeFragment extends Fragment {
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);*/
-
-
 
         return root;
     }

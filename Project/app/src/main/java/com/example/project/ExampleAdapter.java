@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,29 +14,18 @@ import java.util.ArrayList;
 
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
     private ArrayList<CreateCard> mExampleList;
-    public static class ExampleViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mImageView;
-        public TextView mTextView1;
-        public TextView mTextView2;
+    private LayoutInflater mInflater;
 
-        public ExampleViewHolder(View itemView){
-            super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView4);
-            mTextView1 = itemView.findViewById(R.id.textView7);
-            mTextView2 = itemView.findViewById(R.id.textView8);
-        }
-    }
-
-    public ExampleAdapter(ArrayList<CreateCard> exampleList){
-        mExampleList = exampleList;
+    public  ExampleAdapter(Context context, ArrayList<CreateCard> exampleList){
+        mInflater = LayoutInflater.from(context);
+        this.mExampleList = exampleList;
     }
 
     @NonNull
     @Override
-    public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent);
-        ExampleViewHolder evh = new ExampleViewHolder(v);
-        return evh;
+    public ExampleAdapter.ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = mInflater.inflate(R.layout.card_view, parent,false);
+        return new ExampleViewHolder(v, this);
     }
 
     @Override
@@ -49,5 +39,24 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     @Override
     public int getItemCount() {
         return mExampleList.size();
+    }
+
+    public class ExampleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public TextView mTextView1;
+        public TextView mTextView2;
+        public ImageView mImageView;
+        final ExampleAdapter mAdapter;
+        public ExampleViewHolder(View itemView, ExampleAdapter adapter){
+            super(itemView);
+            mTextView1 = itemView.findViewById(R.id.textView7);
+            mTextView2 = itemView.findViewById(R.id.textView8);
+            mImageView = itemView.findViewById(R.id.imageView4);
+            this.mAdapter = adapter;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 }
