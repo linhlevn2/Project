@@ -21,16 +21,24 @@ import com.example.project.CreateCard;
 import com.example.project.ExampleAdapter;
 import com.example.project.MainActivity;
 import com.example.project.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 public class HomeFragment extends Fragment {
     View root = null;
@@ -50,7 +58,38 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        postBtn = (Button) root.findViewById(R.id.button2);
+        Map<String, Object> allHotels = new HashMap<>();
+        //DocumentReference mDocRef1 = FirebaseFirestore.getInstance().document("hotels");
+        //CollectionReference hotels = FirebaseFirestore.getInstance().collection("hotels");
+        CollectionReference hotels = FirebaseFirestore.getInstance().collection("hotels");
+
+        final TextView allHotelsTxt = root.findViewById(R.id.hotelTxt);
+
+        FirebaseFirestore.getInstance().collection("hotels")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String AllHotelsTxt="";
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                AllHotelsTxt = document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" +AllHotelsTxt;
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                        allHotelsTxt.setText(AllHotelsTxt);
+                    }
+                });
+
+
+        //String hotelsList = mDocRef1.getString("a");
+
+        //TextView hotels = root.findViewById(R.id.hotelTxt);
+        //hotels.setText(hotelsList);
+
+        /*postBtn = (Button) root.findViewById(R.id.button2);
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,11 +101,11 @@ public class HomeFragment extends Fragment {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteReview(v);
+                //deleteReview(v);
             }
-        });
+        });*/
 
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        /*View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         ArrayList<CreateCard> cardItem = new ArrayList<>();
         cardItem.add(new CreateCard(R.drawable.hotel3, "T1", "T2"));
@@ -85,7 +124,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        /*mLayoutManager = new LinearLayoutManager(HomeFragment, LinearLayoutManager.HORIZONTAL, false);
+        mLayoutManager = new LinearLayoutManager(HomeFragment, LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new ExampleAdapter(cardItem);
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -102,7 +141,7 @@ public class HomeFragment extends Fragment {
             //TextView userView = root.findViewById(R.id.emailText);
             //String userEmail = userView.getText().toString();
 
-            if (reviewText.isEmpty()) {
+            /*if (reviewText.isEmpty()) {
                 return;
             }
 
@@ -145,7 +184,7 @@ public class HomeFragment extends Fragment {
                         public void onFailure(@NonNull Exception e) {
                             Log.w("userReview", "Error deleting document", e);
                         }
-                    });
+                    });*/
         }
 
 }

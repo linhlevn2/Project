@@ -27,7 +27,7 @@
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/distanceTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -35,7 +35,7 @@
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/editTextNumber2"
+        android:id="@+id/priceTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -53,21 +53,21 @@
         android:textSize="24sp" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/poolBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/cb1"
         android:textSize="18sp" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/spaBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/cb2"
         android:textSize="18sp" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/gymBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/cb3"
