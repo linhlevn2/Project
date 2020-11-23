@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,27 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project.CreateCard;
-import com.example.project.ExampleAdapter;
-import com.example.project.MainActivity;
 import com.example.project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,7 +61,7 @@ public class HomeFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                AllHotelsTxt = document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" +AllHotelsTxt;
+                                AllHotelsTxt = "Name: "+document.getData().get("name").toString() + "\nLocation:" + document.getData().get("location").toString() + "\n\n" +AllHotelsTxt;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -132,7 +119,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
-        Map<String, Object> review = new HashMap<>();
+        /*Map<String, Object> review = new HashMap<>();
         private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/user");
 
         public void save_Fetch_Update_Review(View view) {
@@ -141,7 +128,7 @@ public class HomeFragment extends Fragment {
             //TextView userView = root.findViewById(R.id.emailText);
             //String userEmail = userView.getText().toString();
 
-            /*if (reviewText.isEmpty()) {
+            if (reviewText.isEmpty()) {
                 return;
             }
 
@@ -187,4 +174,3 @@ public class HomeFragment extends Fragment {
                     });*/
         }
 
-}

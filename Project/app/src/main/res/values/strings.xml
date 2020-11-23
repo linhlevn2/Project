@@ -11,19 +11,7 @@
     <string name="menu_gallery">Your preferred hotels</string>
     <string name="menu_slideshow">Your preference</string>
 
-    <string name="title">Toronto Hotels</string>
-    <string name="title1">Budget Hotels (less than $70 per night)</string>
-    <string name="title2">Deluxe Hotels</string>
-    <string name="postButton">Post</string>
-    <string name="deleteButton">Delete</string>
-    <string name="review">Give us your feedback!</string>
-    <string name="hotel1">Yellow Duck</string>
-    <string name="desc1">Price: $40/night.\nLocation: Queen and Spadina.\nAmenities: Gym: Yes, Pool: No, Spa: Yes.\nAverage rating: 4.3.</string>
-    <string name="hotel2">Purple Toucan</string>
-    <string name="desc2">Price: $60/night.\nLocation: Yonge and College.\nAmenities: Gym: Yes, Pool: Yes, Spa: Yes.\nAverage rating: 4.6.</string>
-    <string name="hotel3">Red Puppy</string>
-    <string name="desc3">Price: $120/night.\nLocation: Yonge and Dundas.\nAmenities: Gym: Yes, Pool: Yes, Spa: Yes.\nAverage rating: 4.7.</string>
-    <string name="feedback">Feedback:</string>
+
 
     <string name="distance">Enter your preferred distance from the hotel to downtown Toronto:</string>
     <string name="distance1">Number of kilometers.</string>
@@ -32,4 +20,9 @@
     <string name="cb1">Pool</string>
     <string name="cb2">Spa</string>
     <string name="cb3">Gym</string>
+    <string name="spa">All hotels that have spa:</string>
+    <string name="gym">All hotels that have gym:</string>
+    <string name="pool">All hotels that have pool:</string>
+    <string name="priceTxt">All hotels that are within your price range:</string>
+    <string name="distanceTxt">All hotels that are within your preferred distance to downtown:</string>
 </resources>

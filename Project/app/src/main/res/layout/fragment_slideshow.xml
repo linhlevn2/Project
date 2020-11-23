@@ -56,6 +56,7 @@
         android:id="@+id/poolBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:text="@string/cb1"
         android:textSize="18sp" />
 
@@ -63,6 +64,7 @@
         android:id="@+id/spaBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:text="@string/cb2"
         android:textSize="18sp" />
 
@@ -70,6 +72,8 @@
         android:id="@+id/gymBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checked="false"
+        android:clickable="true"
         android:text="@string/cb3"
         android:textSize="18sp" />
 

@@ -45,17 +45,18 @@ public class GalleryFragment extends Fragment {
             }
         });
 
+        View v =inflater.inflate(R.layout.fragment_slideshow,container,false);
         Boolean gym = false, spa = false, pool = false;
-        CheckBox spaBox = (CheckBox)root.findViewById(R.id.spaBox);
+        CheckBox spaBox = (CheckBox)v.findViewById(R.id.spaBox);
         if(spaBox.isChecked()){spa = true;}
-        CheckBox gymBox = (CheckBox)root.findViewById(R.id.gymBox);
+        CheckBox gymBox = (CheckBox)v.findViewById(R.id.gymBox);
         if(gymBox.isChecked()){gym = true;}
-        CheckBox poolBox = (CheckBox)root.findViewById(R.id.poolBox);
+        CheckBox poolBox = (CheckBox)v.findViewById(R.id.poolBox);
         if(poolBox.isChecked()){pool = true;}
-        EditText distanceTxt = root.findViewById(R.id.distanceTxt);
-        String distance = distanceTxt.getText().toString();
-        EditText priceTxt = root.findViewById(R.id.priceTxt);
-        String price = priceTxt.getText().toString();
+        EditText distanceTxt = v.findViewById(R.id.distanceTxt);
+        String distance = (distanceTxt.getText().toString());
+        EditText priceTxt = v.findViewById(R.id.priceTxt);
+        String price = (priceTxt.getText().toString());
 
         //Map<String, Object> preferredHotels = new HashMap<>();
         //DocumentReference mDocRef = FirebaseFirestore.getInstance().document("hotels");
@@ -65,7 +66,7 @@ public class GalleryFragment extends Fragment {
         final TextView gymHotels = root.findViewById(R.id.gymTxt);
         final TextView poolHotels = root.findViewById(R.id.poolTxt);
         final TextView priceHotels = root.findViewById(R.id.priceText);
-        final TextView distanceHotels = root.findViewById(R.id.distanceTxt);
+        final TextView distanceHotels = root.findViewById(R.id.distanceText);
 
         FirebaseFirestore.getInstance().collection("hotels")
                 .whereEqualTo("gym", gym)
@@ -77,7 +78,7 @@ public class GalleryFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                allSpaHotels = document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" + allSpaHotels;
+                                allSpaHotels = "Name: "+document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allSpaHotels;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -96,7 +97,7 @@ public class GalleryFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                allGymHotels = document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" +allGymHotels;
+                                allGymHotels = "Name: "+document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" +allGymHotels;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -115,7 +116,7 @@ public class GalleryFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                allPoolHotels = document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" +allPoolHotels;
+                                allPoolHotels = "Name: "+document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" +allPoolHotels;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -125,7 +126,7 @@ public class GalleryFragment extends Fragment {
                 });
 
         FirebaseFirestore.getInstance().collection("hotels")
-                .whereLessThan("distance", distance)
+                .whereLessThan("price", price)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -134,7 +135,7 @@ public class GalleryFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                allPriceHotels = document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" +allPriceHotels;
+                                allPriceHotels = "Name: "+document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" +allPriceHotels;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -144,7 +145,7 @@ public class GalleryFragment extends Fragment {
                 });
 
         FirebaseFirestore.getInstance().collection("hotels")
-                .whereLessThan("price", price)
+                .whereLessThan("distance", distance)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -153,7 +154,7 @@ public class GalleryFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                allDistanceHotels=document.getData().get("name").toString() + "\n" + document.getData().get("location").toString() + "\n\n" +allDistanceHotels;
+                                allDistanceHotels="Name: "+document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" +allDistanceHotels;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

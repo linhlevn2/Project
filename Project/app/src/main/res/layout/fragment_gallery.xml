@@ -20,37 +20,85 @@
                 android:id="@+id/text_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="abc" />
+                android:layout_marginBottom="25dp"
+                android:textAlignment="center"
+                android:textColor="@color/title"
+                android:textSize="36sp"
+                tools:text="@string/menu_gallery" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="@string/spa" />
 
             <TextView
                 android:id="@+id/spaTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_marginBottom="15dp"
+                android:text="There is no hotel that has spa" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="@string/pool" />
 
             <TextView
                 android:id="@+id/poolTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_marginBottom="15dp"
+                android:text="There is no hotel that has pool" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="@string/gym" />
 
             <TextView
                 android:id="@+id/gymTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_marginBottom="15dp"
+                android:text="There is no hotel that has gym" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="@string/priceTxt" />
 
             <TextView
                 android:id="@+id/priceText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_marginBottom="15dp"
+                android:text="There is no hotel that satisfy your preferrence or you did not set your preferrence for this category" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="@string/distanceTxt" />
 
             <TextView
                 android:id="@+id/distanceText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="There is no hotel that satisfy your preferrence or you did not set your preferrence for this category" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
