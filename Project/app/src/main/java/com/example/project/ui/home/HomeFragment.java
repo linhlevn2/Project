@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +18,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +40,7 @@ public class HomeFragment extends Fragment {
     View root = null;
     private HomeViewModel homeViewModel;
     private Button postBtn;
+    Map<String, Object> review = new HashMap<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,13 +61,13 @@ public class HomeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String AllHotelsTxt="";
+                        String AllHotelsTxt = "";
                         if (task.isSuccessful()) {
-                            int i=0;
+                            int i = 6;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                AllHotelsTxt = "0"+ String.valueOf(i) +" Name: "+document.getData().get("name").toString() + "\nLocation:" + document.getData().get("location").toString() + "\n\n" +AllHotelsTxt;
-                                i=i+1;
+                                AllHotelsTxt = "0" + String.valueOf(i) + " Name: " + document.getData().get("name").toString() + "\nLocation:" + document.getData().get("location").toString() + "\n\n" + AllHotelsTxt;
+                                i = i - 1;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -66,125 +76,110 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        setAllReviews(root);
+
+        Button postBtn = (Button) root.findViewById(R.id.button);
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostReview(v);
+                setAllReviews(v);
+            }
+        });
+
+        Button deleteBtn = (Button) root.findViewById(R.id.button3);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteReview(v);
+                setAllReviews(v);
+            }
+        });
+
+        return root;
+    }
+    public void setAllReviews(View v) {
         final TextView allReviews = root.findViewById(R.id.textView7);
         FirebaseFirestore.getInstance().collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String AllReviewsTxt="";
+                        String AllReviewsTxt = "";
                         if (task.isSuccessful()) {
-                            int i=1;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                if(document.getData().get("0"+String.valueOf(i))!=null){
-                                    AllReviewsTxt = "Hotel Number: 0"+String.valueOf(i)+"Review: "+document.getData().get("0"+String.valueOf(i)).toString() + "\n\n" +AllReviewsTxt;}
-                                i=i+1;
+                            for (int i = 6; i > 0; i = i - 1) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    if (document.getData().get("0" + String.valueOf(i)) != null) {
+                                        AllReviewsTxt = "Hotel#: 0" + String.valueOf(i) + " User#: " + document.getData().get("id") + "\nReview: " + document.getData().get("0" + String.valueOf(i)).toString() + "\n\n" + AllReviewsTxt;
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                }
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                         allReviews.setText(AllReviewsTxt);
                     }
                 });
-        //TextView hotels = root.findViewById(R.id.hotelTxt);
-        //hotels.setText(hotelsList);
+    }
 
-        /*postBtn = (Button) root.findViewById(R.id.button2);
-        postBtn.setOnClickListener(new View.OnClickListener() {
+    private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/user");
+
+    public void PostReview(View view) {
+        EditText reviewTxt = root.findViewById(R.id.reviewTxt);
+        String r = reviewTxt.getText().toString();
+        if (r.isEmpty()) {
+            return;
+        }
+        Spinner s = root.findViewById(R.id.spinner);
+        String hotelId = s.getSelectedItem().toString();
+        review.put(hotelId,r);
+        mDocRef.set(review, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onClick(View v) {
-                save_Fetch_Update_Review(v);
+            public void onSuccess(Void aVoid) {
+                Log.d("userReview", "Document has been saved!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("userReview", "Document was not saved!", e);
             }
         });
-
-        Button deleteBtn = (Button) root.findViewById(R.id.deleteBtn);
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //deleteReview(v);
-            }
-        });*/
-
-        /*View v = inflater.inflate(R.layout.fragment_home, container, false);
-
-        ArrayList<CreateCard> cardItem = new ArrayList<>();
-        cardItem.add(new CreateCard(R.drawable.hotel3, "T1", "T2"));
-        cardItem.add(new CreateCard(R.drawable.hotel1, "T3", "T2"));
-        cardItem.add(new CreateCard(R.drawable.hotel2, "T4", "T2"));
-
-        RecyclerView mRecyclerView;
-        RecyclerView.Adapter mAdapter;
-        RecyclerView.LayoutManager mLayoutManager;
-
-        mRecyclerView = v.findViewById(R.id.recyclerView2);
-        mAdapter = new ExampleAdapter(this.getContext(), cardItem);
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(HomeFragment, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter = new ExampleAdapter(cardItem);
-        mRecyclerView = findViewById(R.id.recyclerView2);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);*/
-
-        return root;
+        showUserReviews();
     }
-        /*Map<String, Object> review = new HashMap<>();
-        private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("users/user");
 
-        public void save_Fetch_Update_Review(View view) {
-            EditText reviewView = root.findViewById(R.id.textReview);
-            final String reviewText = reviewView.getText().toString();
-            //TextView userView = root.findViewById(R.id.emailText);
-            //String userEmail = userView.getText().toString();
+    public void deleteReview(View view) {
+        Spinner s = root.findViewById(R.id.spinner);
+        String hotelId = s.getSelectedItem().toString();
+        review.put(hotelId,FieldValue.delete());
+        mDocRef.set(review, SetOptions.merge());
+        showUserReviews();
+    }
 
-            if (reviewText.isEmpty()) {
-                return;
-            }
-
-            review.put("user", reviewText);
-
-            mDocRef.set(review).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d("userReview", "Document has been saved!");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("userReview", "Document was not saved!", e);
-                }
-            });
-
-            final TextView reviewsText = root.findViewById(R.id.reviews);
-            mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        String reviewGetText = documentSnapshot.getString(reviewText);
-                        reviewsText.setText(reviewText + "\n");
+    public void showUserReviews(){
+        final TextView userReview = root.findViewById(R.id.textView6);
+        FirebaseFirestore.getInstance().collection("users")
+                .whereEqualTo("id","user")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String AllReviewsTxt = "";
+                        if (task.isSuccessful()) {
+                            for (int i = 6; i > 0; i = i - 1) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    if (document.getData().get("0" + String.valueOf(i)) != null) {
+                                        AllReviewsTxt = "Hotel#: 0" + String.valueOf(i) + "\nReview: " + document.getData().get("0" + String.valueOf(i)).toString() + "\n\n" + AllReviewsTxt;
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            }
+                        }
+                        userReview.setText(AllReviewsTxt);
                     }
-                }
-            });
-        }
-
-        public void deleteReview(View view){
-            mDocRef.delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("userReview", "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("userReview", "Error deleting document", e);
-                        }
-                    });*/
-        }
+                });
+    }
+}
 
