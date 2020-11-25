@@ -140,7 +140,7 @@ public class GalleryFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Log.d(TAG, document.getId() + " => " + document.getData());
-                                            allPriceHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n" + allPriceHotels;
+                                            allPriceHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allPriceHotels;
                                         }
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());

@@ -2,7 +2,7 @@
     <string name="app_name">Toronto Hotel Recommendation</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Name of user</string>
+    <string name="nav_header_title">Your UID: user</string>
     <string name="nav_header_subtitle">user@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
