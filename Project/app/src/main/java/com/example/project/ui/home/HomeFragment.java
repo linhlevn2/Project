@@ -45,13 +45,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Map<String, Object> allHotels = new HashMap<>();
-        //DocumentReference mDocRef1 = FirebaseFirestore.getInstance().document("hotels");
-        //CollectionReference hotels = FirebaseFirestore.getInstance().collection("hotels");
-        CollectionReference hotels = FirebaseFirestore.getInstance().collection("hotels");
-
         final TextView allHotelsTxt = root.findViewById(R.id.hotelTxt);
-
         FirebaseFirestore.getInstance().collection("hotels")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -59,9 +53,11 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         String AllHotelsTxt="";
                         if (task.isSuccessful()) {
+                            int i=0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                AllHotelsTxt = "Name: "+document.getData().get("name").toString() + "\nLocation:" + document.getData().get("location").toString() + "\n\n" +AllHotelsTxt;
+                                AllHotelsTxt = "0"+ String.valueOf(i) +" Name: "+document.getData().get("name").toString() + "\nLocation:" + document.getData().get("location").toString() + "\n\n" +AllHotelsTxt;
+                                i=i+1;
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -70,8 +66,27 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-                //String hotelsList = mDocRef1.getString("a");
-
+        final TextView allReviews = root.findViewById(R.id.textView7);
+        FirebaseFirestore.getInstance().collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String AllReviewsTxt="";
+                        if (task.isSuccessful()) {
+                            int i=1;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                if(document.getData().get("0"+String.valueOf(i))!=null){
+                                    AllReviewsTxt = "Hotel Number: 0"+String.valueOf(i)+"Review: "+document.getData().get("0"+String.valueOf(i)).toString() + "\n\n" +AllReviewsTxt;}
+                                i=i+1;
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                        allReviews.setText(AllReviewsTxt);
+                    }
+                });
         //TextView hotels = root.findViewById(R.id.hotelTxt);
         //hotels.setText(hotelsList);
 

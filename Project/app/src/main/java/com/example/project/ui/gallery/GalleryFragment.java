@@ -31,7 +31,7 @@ import static android.content.ContentValues.TAG;
 public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
-
+    public String allSpaHotels="", allGymHotels="", allPoolHotels="",allPriceHotels = "",allDistanceHotels = "";
     private View root, v;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,135 +46,139 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        v = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        Button updateBtn = v.findViewById(R.id.button);
+        Button updateBtn = root.findViewById(R.id.button2);
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Preference updated!", Toast.LENGTH_LONG).show();
+                final TextView spaHotels = root.findViewById(R.id.spaTxt);
+                final TextView gymHotels = root.findViewById(R.id.gymTxt);
+                final TextView poolHotels = root.findViewById(R.id.poolTxt);
+                final TextView priceHotels = root.findViewById(R.id.priceText);
+                final TextView distanceHotels = root.findViewById(R.id.distanceText);
+
+                CheckBox gymBox = (CheckBox) root.findViewById(R.id.gymBox);
+                if (gymBox.isChecked()) {
+                    FirebaseFirestore.getInstance().collection("hotels")
+                            .whereEqualTo("gym", true)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            allGymHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allGymHotels;
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                    gymHotels.setText(allGymHotels);
+                                    allGymHotels="";
+                                }
+                            });
+                } else {
+                    gymHotels.setText("There is no hotel that has gym or you did not set your preference for this category");
+                }
+
+                CheckBox spaBox = (CheckBox) root.findViewById(R.id.spaBox);
+                if (spaBox.isChecked()) {
+                    FirebaseFirestore.getInstance().collection("hotels")
+                            .whereEqualTo("spa", true)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            allSpaHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allSpaHotels;
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                    spaHotels.setText(allSpaHotels);
+                                    allSpaHotels="";
+                                }
+                            });
+                } else {
+                    spaHotels.setText("There is no hotel that has spa or you did not set your preference for this category");
+                }
+
+                CheckBox poolBox = (CheckBox) root.findViewById(R.id.poolBox);
+                if (poolBox.isChecked()) {
+                    FirebaseFirestore.getInstance().collection("hotels")
+                            .whereEqualTo("pool", true)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            allPoolHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allPoolHotels;
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                    poolHotels.setText(allPoolHotels);
+                                    allPoolHotels="";
+                                }
+                            });
+                } else {
+                    poolHotels.setText("There is no hotel that has pool or you did not set your preference for this category");
+                }
+
+                EditText priceTxt = root.findViewById(R.id.priceTxt);
+                String p = priceTxt.getText().toString();
+                if(!p.equals("") && Integer.parseInt(p)>23) {
+                    FirebaseFirestore.getInstance().collection("hotels")
+                            .whereLessThan("price", Integer.parseInt(p))
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            allPriceHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n" + allPriceHotels;
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                    priceHotels.setText(allPriceHotels);
+                                    allPriceHotels = "";
+                                }
+                            });
+                } else {
+                    priceHotels.setText("There is no hotel that is within your price range or you did not set your preference for this category");
+                }
+
+                EditText distanceTxt = root.findViewById(R.id.distanceTxt);
+                String distance = (distanceTxt.getText().toString());
+                if(!distance.equals("") && Integer.parseInt(distance)>0) {
+                    FirebaseFirestore.getInstance().collection("hotels")
+                            .whereLessThan("distance", Integer.parseInt(distance))
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            allDistanceHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allDistanceHotels;
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                    distanceHotels.setText(allDistanceHotels);
+                                    allDistanceHotels="";
+                                }
+                            });
+                } else {
+                    distanceHotels.setText("There is no hotel that is within preferred distance or you did not set your preference for this category");
+                }
             }
         });
-
-        Boolean gym = false, spa = false, pool = false;
-        CheckBox spaBox = (CheckBox) v.findViewById(R.id.spaBox);
-        if (spaBox.isChecked()) {
-            spa = true;
-        }
-        CheckBox gymBox = (CheckBox) v.findViewById(R.id.gymBox);
-        if (gymBox.isChecked()) {
-            gym = true;
-        }
-        CheckBox poolBox = (CheckBox) v.findViewById(R.id.poolBox);
-        if (poolBox.isChecked()) {
-            pool = true;
-        }
-        EditText distanceTxt = v.findViewById(R.id.distanceTxt);
-        String distance = (distanceTxt.getText().toString());
-        EditText priceTxt = v.findViewById(R.id.priceTxt);
-        String price = (priceTxt.getText().toString());
-
-        final TextView spaHotels = root.findViewById(R.id.spaTxt);
-        final TextView gymHotels = root.findViewById(R.id.gymTxt);
-        final TextView poolHotels = root.findViewById(R.id.poolTxt);
-        final TextView priceHotels = root.findViewById(R.id.priceText);
-        final TextView distanceHotels = root.findViewById(R.id.distanceText);
-
-        FirebaseFirestore.getInstance().collection("hotels")
-                .whereEqualTo("gym", gym)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String allSpaHotels = "";
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                allSpaHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allSpaHotels;
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                        spaHotels.setText(allSpaHotels);
-                    }
-                });
-
-        FirebaseFirestore.getInstance().collection("hotels")
-                .whereEqualTo("spa", spa)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String allGymHotels = "";
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                allGymHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allGymHotels;
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                        gymHotels.setText(allGymHotels);
-                    }
-                });
-
-        FirebaseFirestore.getInstance().collection("hotels")
-                .whereEqualTo("pool", pool)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String allPoolHotels = "";
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                allPoolHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allPoolHotels;
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                        poolHotels.setText(allPoolHotels);
-                    }
-                });
-
-        FirebaseFirestore.getInstance().collection("hotels")
-                .whereLessThan("price", price)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String allPriceHotels = "";
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                allPriceHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allPriceHotels;
-                            }
-                            priceHotels.setText(allPriceHotels);
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                            priceHotels.setText("no hotel");
-                        }
-
-                    }
-                });
-
-        FirebaseFirestore.getInstance().collection("hotels")
-                .whereLessThan("distance", distance)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String allDistanceHotels = "";
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                allDistanceHotels = "Name: " + document.getData().get("name").toString() + "\nLocation: " + document.getData().get("location").toString() + "\n\n" + allDistanceHotels;
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                        distanceHotels.setText(allDistanceHotels);
-                    }
-                });
         return root;
     }
 }

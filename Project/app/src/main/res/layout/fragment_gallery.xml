@@ -20,11 +20,69 @@
                 android:id="@+id/text_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/title"
                 android:textSize="36sp"
                 tools:text="@string/menu_gallery" />
+
+            <EditText
+                android:id="@+id/distanceTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/distance"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/priceTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/price"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                tools:text="@string/amenities" />
+
+            <CheckBox
+                android:id="@+id/poolBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cb1" />
+
+            <CheckBox
+                android:id="@+id/spaBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cb2" />
+
+            <CheckBox
+                android:id="@+id/gymBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cb3" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Update my Preference!" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/title"
+                android:textSize="18sp"
+                tools:text="@string/preference" />
 
             <TextView
                 android:id="@+id/textView10"
